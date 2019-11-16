@@ -1,0 +1,6 @@
+# intelfit
+A minimal golang library to parse the intelfit out of a flashimage.
+According to intel:
+```
+A Firmware Interface Table (FIT) is a data structure inside BIOS flash and consists of multiple entries. Each entry defines the starting address and attributes of different components in the BIOS. FIT resides in the BIOS Flash area and is located by a FIT pointer at physical address (4GB - 40h), refer to Figure below. The FIT is generated at build time, based on the size and location of the firmware components.
+```

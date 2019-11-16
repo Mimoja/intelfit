@@ -1,4 +1,4 @@
-package intelft
+package intelfit
 
 import (
 	"bytes"

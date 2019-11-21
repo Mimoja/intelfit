@@ -92,7 +92,7 @@ func ParseFITEntry(FITReader io.Reader, next *FitEntry, mask uint64) {
 	binary.Read(FITReader, binary.LittleEndian, &binaryFitEntry)
 	//extend to 32 bit value
 	size := append(binaryFitEntry.Size[:], 0x00)
-	next.Address = binaryFitEntry.Address ^ mask
+	next.Address = binaryFitEntry.Address - mask
 	next.Size = binary.LittleEndian.Uint32(size)
 	next.Reserved = binaryFitEntry.Reserved
 	next.Version = binaryFitEntry.Version
@@ -110,8 +110,8 @@ func ParseFIT(firmwareBytes []byte) (*FIT, error) {
 	}
 
 	address := binary.LittleEndian.Uint32(firmwareBytes[len(firmwareBytes)-0x40:])
-	fit.Mask = uint64(0xFFFFFFFFFFFFFFFF) - uint64(len(firmwareBytes)) + uint64(1)
-	address = uint32(uint64(address) ^ fit.Mask)
+	fit.Mask = uint64(0xFFFFFFFF) - uint64(len(firmwareBytes)) + 1
+	address = uint32(uint64(address) - fit.Mask)
 	if address > uint32(len(firmwareBytes)) {
 		return nil, fmt.Errorf("fit outside of flashimage")
 	}
